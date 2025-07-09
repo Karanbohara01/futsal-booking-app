@@ -1,6 +1,8 @@
 // index.js
 
 require('dotenv').config(); // ✅ MUST BE THE FIRST LINE
+console.log('index.js has been loaded'); // 👈 ADD THIS LINE
+
 const express = require('express');
 const cors = require('cors');
 const connectDB = require('./config/db');

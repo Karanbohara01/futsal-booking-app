@@ -1,4 +1,6 @@
 const User = require('../models/User');
+console.log('userController.js has been loaded'); // 👈 ADD THIS LINE
+
 
 // register
 exports.register = async (req, res, next) => {
@@ -66,4 +68,13 @@ exports.login = async (req, res, next) => {
             error: error.message,
         });
     }
+};
+
+exports.getMe = async (req, res, next) => {
+    const user = await User.findById(req.user.id);
+
+    res.status(200).json({
+        success: true,
+        data: user,
+    });
 };
