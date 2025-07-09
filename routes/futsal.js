@@ -1,5 +1,5 @@
 const express = require('express');
-const { createFutsal, getFutsals, getFutsal } = require('../controllers/futsalController');
+const { createFutsal, getFutsals, getFutsal, updateFutsal, deleteFutsal } = require('../controllers/futsalController');
 const { protect } = require('../middleware/auth');
 
 const router = express.Router();
@@ -10,6 +10,8 @@ router.route('/').post(protect, createFutsal)
 
 router
     .route('/:id')
-    .get(getFutsal);
+    .get(getFutsal)
+    .put(protect, updateFutsal)    // 👈 Add this
+    .delete(protect, deleteFutsal);
 
 module.exports = router;

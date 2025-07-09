@@ -65,3 +65,49 @@ exports.getFutsal = async (req, res, next) => {
         });
     }
 };
+
+exports.updateFutsal = async (req, res, next) => {
+    try {
+        let futsal = await Futsal.findById(req.params.id);
+
+        if (!futsal) {
+            return res.status(404).json({ success: false, error: `Futsal not found with id of ${req.params.id}` });
+        }
+
+        // Make sure user is the futsal owner
+        if (futsal.owner.toString() !== req.user.id) {
+            return res.status(401).json({ success: false, error: 'User not authorized to update this futsal' });
+        }
+
+        futsal = await Futsal.findByIdAndUpdate(req.params.id, req.body, {
+            new: true,
+            runValidators: true,
+        });
+
+        res.status(200).json({ success: true, data: futsal });
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+    }
+};
+
+
+exports.deleteFutsal = async (req, res, next) => {
+    try {
+        const futsal = await Futsal.findById(req.params.id);
+
+        if (!futsal) {
+            return res.status(404).json({ success: false, error: `Futsal not found with id of ${req.params.id}` });
+        }
+
+        // Make sure user is the futsal owner
+        if (futsal.owner.toString() !== req.user.id) {
+            return res.status(401).json({ success: false, error: 'User not authorized to delete this futsal' });
+        }
+
+        await futsal.deleteOne();
+
+        res.status(200).json({ success: true, data: {} });
+    } catch (error) {
+        res.status(400).json({ success: false, error: error.message });
+    }
+};
