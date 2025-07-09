@@ -2,6 +2,7 @@
 
 require('dotenv').config(); // ✅ MUST BE THE FIRST LINE
 console.log('index.js has been loaded'); // 👈 ADD THIS LINE
+const futsalRoutes = require('./routes/futsal'); // 👈 Add this line
 
 const express = require('express');
 const cors = require('cors');
@@ -17,9 +18,10 @@ connectDB();
 
 // Middlewares
 app.use(cors());
-app.use(express.json()); // To parse JSON bodies
+app.use(express.json());
 
 app.use('/api/auth', authRoutes);
+app.use('/api/futsal', futsalRoutes);
 
 
 // Basic route for testing
