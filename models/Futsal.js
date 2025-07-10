@@ -20,6 +20,16 @@ const FutsalSchema = new mongoose.Schema({
         type: [String],
         default: ['no-photo.jpg'],
     },
+    location: {
+        type: {
+            type: String,
+            enum: ['Point'],
+        },
+        coordinates: {
+            type: [Number], // [longitude, latitude]
+            index: '2dsphere', // Creates a geospatial index for fast queries
+        },
+    },
     owner: {
         type: mongoose.Schema.ObjectId,
         ref: 'User',
